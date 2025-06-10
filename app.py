@@ -2,7 +2,7 @@ from flask import flask, render_template, request, redirect, url_for, session
 import os
 from datetime import datetime
 
-app = Flask(__name__)
+app = flask(__name__)
 app.secret_key = 'clave_secreta_para_sesiones'
 
 # Leer usuarios desde archivo al iniciar
