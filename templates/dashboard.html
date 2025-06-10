@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel - Sky Wash</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #1f2937;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header img {
+            height: 50px;
+            vertical-align: middle;
+        }
+
+        header h1 {
+            display: inline-block;
+            margin-left: 15px;
+            font-size: 24px;
+            vertical-align: middle;
+            color: white;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .botonera button {
+            background-color: #2563eb;
+            color: white;
+            padding: 12px 20px;
+            margin: 10px 10px 20px 0;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .botonera button:hover {
+            background-color: #1e40af;
+        }
+
+        .formulario {
+            background-color: #ffffff10;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid #ffffff30;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #ffffff;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            background-color: #e5e7eb;
+            color: #000;
+        }
+
+        button[type=submit] {
+            background-color: #10b981;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button[type=submit]:hover {
+            background-color: #059669;
+        }
+
+        .oculto {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Sky Wash Logo">
+    <h1>Sky Wash LATAM - Plataforma de Gestión de Operaciones Aéreas</h1>
+</header>
+
+<div class="container">
+    <h2>Bienvenido, {{ usuario }}</h2>
+    <a href="{{ url_for('logout') }}" style="color: white;">Cerrar sesión</a>
+
+    <div class="botonera">
+        <button onclick="toggleFormulario('bitacora')">Bitácora de vuelo</button>
+        <button onclick="toggleFormulario('libro')">Libro de vuelo</button>
+        <button onclick="toggleFormulario('riesgo')">Análisis de riesgos</button>
+    </div>
+
+    <!-- BITÁCORA DEL PILOTO -->
+    <div id="bitacora" class="formulario oculto">
+        <h3>Bitácora de Vuelo del Piloto</h3>
+        <form action="/guardar/bitacora" method="post">
+            <label>Nombre del Piloto:</label>
+            <input type="text" name="nombre_piloto" required>
+
+            <label>Número de Certificación o Licencia:</label>
+            <input type="text" name="numero_licencia" required>
+
+            <label>Identificación de la Aeronave:</label>
+            <input type="text" name="identificacion_aeronave">
+
+            <label>Modelo de la Aeronave:</label>
+            <input type="text" name="modelo_aeronave">
+
+            <label>Tipo de Operación:</label>
+            <input type="text" name="tipo_operacion">
+
+            <label>Fecha del Vuelo:</label>
+            <input type="date" name="fecha_vuelo">
+
+            <label>Ubicación del Vuelo:</label>
+            <input type="text" name="ubicacion_vuelo">
+
+            <label>Hora de Despegue:</label>
+            <input type="time" name="hora_despegue">
+
+            <label>Hora de Aterrizaje:</label>
+            <input type="time" name="hora_aterrizaje">
+
+            <label>Duración Total del Vuelo (minutos):</label>
+            <input type="number" name="duracion_vuelo">
+
+            <label>Horas de Vuelo:</label>
+            <input type="number" name="horas_vuelo">
+
+            <label>Horas Totales Acumuladas:</label>
+            <input type="number" name="horas_acumuladas">
+
+            <label>Observaciones:</label>
+            <textarea name="observaciones"></textarea>
+
+            <label>Firma del Piloto:</label>
+            <input type="text" name="firma_piloto">
+
+            <label>Firma del Jefe Piloto:</label>
+            <input type="text" name="firma_jefe_piloto">
+
+            <button type="submit">Guardar Bitácora</button>
+        </form>
+    </div>
+
+    <!-- LIBRO DE VUELO Y MANTENIMIENTO -->
+    <div id="libro" class="formulario oculto">
+        <h3>Libro de Vuelo y Mantenimiento</h3>
+        <form action="/guardar/libro" method="post">
+            <label>Identificación de la Aeronave:</label>
+            <input type="text" name="identificacion_aeronave" required>
+
+            <label>Modelo/Fabricante:</label>
+            <input type="text" name="modelo_fabricante" required>
+
+            <label>Tipo de Operación:</label>
+            <input type="text" name="tipo_operacion">
+
+            <label>Fecha del Vuelo:</label>
+            <input type="date" name="fecha_vuelo">
+
+            <label>Ubicación del Vuelo:</label>
+            <input type="text" name="ubicacion_vuelo">
+
+            <label>Hora de Despegue:</label>
+            <input type="time" name="hora_despegue">
+
+            <label>Hora de Aterrizaje:</label>
+            <input type="time" name="hora_aterrizaje">
+
+            <label>Duración Total del Vuelo (minutos):</label>
+            <input type="number" name="duracion_vuelo">
+
+            <label>Nombre del Piloto:</label>
+            <input type="text" name="nombre_piloto">
+
+            <label>Número de Licencia:</label>
+            <input type="text" name="numero_licencia">
+
+            <label>Anotaciones:</label>
+            <textarea name="anotaciones"></textarea>
+
+            <label>Acción Correctiva:</label>
+            <textarea name="accion_correctiva"></textarea>
+
+            <label>Total UAS:</label>
+            <input type="number" name="total_uas">
+
+            <label>Total Motor:</label>
+            <input type="number" name="total_motor">
+
+            <label>Próximo Servicio:</label>
+            <input type="date" name="proximo_servicio">
+
+            <label>Póliza de Seguro:</label>
+            <input type="text" name="poliza_seguro">
+
+            <button type="submit">Guardar Libro de Vuelo</button>
+        </form>
+    </div>
+
+    <!-- ANÁLISIS DE RIESGOS -->
+    <div id="riesgo" class="formulario oculto">
+        <h3>Análisis de Riesgos</h3>
+        <form action="/guardar/riesgo" method="post">
+            <label>Nombre del solicitante:</label>
+            <input type="text" name="nombre_solicitante">
+
+            <label>Lugar de la operación UA:</label>
+            <input type="text" name="lugar_operacion">
+
+            <label>Fecha de inicio:</label>
+            <input type="date" name="fecha_inicio">
+
+            <label>Fecha de fin:</label>
+            <input type="date" name="fecha_fin">
+
+            <label>Número total de vuelos:</label>
+            <input type="number" name="numero_vuelos">
+
+            <label>Tipo de operación aérea UA:</label>
+            <input type="text" name="tipo_operacion_ua">
+
+            <label>Condiciones de operación:</label>
+            <textarea name="condiciones_operacion"></textarea>
+
+            <label>¿La operación será realizada por menos de dos personas?</label>
+            <select name="peligro_menos_dos_personas">
+                <option value=\"si\">Sí</option>
+                <option value=\"no\">No</option>
+            </select>
+
+            <label>¿Vuela sobre personas que no hacen parte de la operación?</label>
+            <select name="peligro_personal_ajeno">
+                <option value=\"si\">Sí</option>
+                <option value=\"no\">No</option>
+            </select>
+
+            <label>Explique causas, consecuencias, mitigaciones (si aplica):</label>
+            <textarea name="detalle_riesgos"></textarea>
+
+            <label>Firma del Jefe de Pilotos:</label>
+            <input type="text" name="firma_jefe_pilotos">
+
+            <button type="submit">Guardar Análisis de Riesgos</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleFormulario(id) {
+        const formularios = document.querySelectorAll('.formulario');
+        formularios.forEach(f => f.classList.add('oculto'));
+        document.getElementById(id).classList.remove('oculto');
+    }
+</script>
+
+</body>
+</html>
